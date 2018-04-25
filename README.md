@@ -41,7 +41,7 @@
 **不使用回调**:
 ```python
 >>>async def run():
-    d = AsyncScrapyApi(target="http://dev.onetuu.com:6800")
+    d = AsyncScrapyApi(target="http://127.0.0.1:6800")
     s = await d.list_projects()
     print(s)
     IOLoop.current().stop()
