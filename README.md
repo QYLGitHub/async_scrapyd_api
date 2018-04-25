@@ -1,0 +1,53 @@
+# async_scrapy_api
+一个更方便管理[scrapyd] api 的封装, 基于[scrapyd_api]上的修改.对外接口完全一致的异步实现
+
+* Python 3.x
+* tornado 5.0
+* scrapy_api 2.0
+
+[scrapyd]: https://github.com/scrapy/scrapyd
+[scrapyd_api]: https://github.com/djm/python-scrapyd-api
+[async_scrapy_api]: https://github.com/QYLGitHub/async_scrapyd_api
+# 安装
+```
+>>> git clone https://github.com/QYLGitHub/async_scrapyd_api
+>>> cd async_scrapyd_api
+>>> python setup.py install
+```
+
+## 使用
+创建async_scrapyd_api对象:
+```python
+>>> from async_scrapy_api import AsyncScrapyApi
+
+>>>scrapyd = AsyncScrapyApi('http://localhost:6800')
+```
+
+添加一个新的项目并制定版本:
+
+```python
+>>> from tornado.ioloop import IOLoop
+>>> egg = open('some_egg.egg', 'rb')
+>>> scrapyd.add_version('project_name', 'version_name', egg, callback=lambda response: print(response, IOLoop.current().stop()))
+>>>IOLoop.current().start()
+```
+
+**取消一个项目的运行**:
+
+```python
+>>> scrapyd.cancel('project_name', '14a6599ef67111e38a0e080027880ca6', callback=lambda response: print(response, IOLoop.current().stop()))
+>>>IOLoop.current().start()
+```
+**不使用回调**:
+```python
+>>>async def run():
+    d = AsyncScrapyApi(target="http://dev.onetuu.com:6800")
+    s = await d.list_projects()
+    print(s)
+    IOLoop.current().stop()
+
+>>>IOLoop.current().run_sync(func=run)
+>>>IOLoop.current().start()
+```
+更多详细api请查看[scrapyd_api]文档.
+

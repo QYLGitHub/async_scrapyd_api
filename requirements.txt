@@ -1,0 +1,2 @@
+tornado==5.0
+scrapyd_api==2.0.1
